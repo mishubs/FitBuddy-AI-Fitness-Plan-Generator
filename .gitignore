@@ -1,8 +1,5 @@
-__pycache__/
-*.py[cod]
-.venv/
-venv/
 .env
-*.db
-.pytest_cache/
-.DS_Store
+.venv/
+__pycache__/
+*.pyc
+fitbuddy.db

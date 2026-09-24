@@ -47,13 +47,24 @@ Include at least one recovery/rest day.
 Keep the plan practical and easy to scan.
 """
 
-    response = get_client().models.generate_content(
-        model=GEMINI_PRO_MODEL,
-        contents=prompt,
-        config={
-            "temperature": 0.6,
-            "max_output_tokens": 5000,
-        },
-    )
+    try:
+        response = get_client().models.generate_content(
+            model=GEMINI_PRO_MODEL,
+            contents=prompt,
+            config={
+                "temperature": 0.6,
+                "max_output_tokens": 5000,
+            },
+        )
 
-    return (response.text or "").strip()
+        result = (response.text or "").strip()
+
+        if result:
+            return result
+
+        return generate_demo_plan(username, goal, intensity)
+
+    except Exception as exc:
+        print(f"Gemini workout generation failed: {exc}")
+        print("Using FitBuddy fallback workout generator.")
+        return generate_demo_plan(username, goal, intensity)
